@@ -21,35 +21,22 @@ class WCH5Dataset(Dataset):
         hdf5_event_data = self.f["event_data"]
         hdf5_labels=self.f["labels"]
         hdf5_energies=self.f["energies"]
-        hdf5_positions=self.f["positions"]
 
-        assert hdf5_event_data.shape[0] == hdf5_labels.shape[0]
+        assert hdf5_event_data.shape[0] == hdf5_labels.shape[0] == hdf5_labels.shape[0]
 
         event_data_shape = hdf5_event_data.shape
         event_data_offset = hdf5_event_data.id.get_offset()
-        event_data_dtype = hdf5_event_data.dtype
-        
-        labels_shape = hdf5_labels.shape
-        labels_offset = hdf5_labels.id.get_offset()
-        labels_dtype = hdf5_labels.dtype
-
-        energies_shape = hdf5_energies.shape
-        energies_offset = hdf5_energies.id.get_offset()
-        energies_dtype = hdf5_energies.dtype
-
-        positions_shape = hdf5_positions.shape
-        positions_offset = hdf5_positions.id.get_offset()
-        positions_dtype = hdf5_positions.dtype
-
-                
+        event_data_dtype = hdf5_event_data.dtype         
         
         #this creates a memory map - i.e. events are not loaded in memory here
         #only on get_item
-        self.event_data = np.memmap(path, mode='r', shape=event_data_shape, offset=event_data_offset, dtype=event_data_dtype)
+        self.event_data = np.memmap(path, mode='r', 
+                                    shape=event_data_shape, 
+                                    offset=event_data_offset, 
+                                    dtype=event_data_dtype)
 
         #this will fit easily in memory even for huge datasets
         self.labels = np.array(hdf5_labels)
-
         self.energies = np.array(hdf5_energies)
 
         self.transform=transform
@@ -88,7 +75,7 @@ class WCH5Dataset(Dataset):
 
     def __getitem__(self,index):
         if self.transform is None:
-            return np.array(self.event_data[index,:]),  self.labels[index], self.energies[index]
+            return np.array(self.event_data[index,:]),  self.labels[index], self.energies[index][0]
         else:
             return self.transform(np.array(self.event_data[index,:])),  self.labels[index], self.energies[index]
 
