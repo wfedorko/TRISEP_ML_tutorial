@@ -37,7 +37,7 @@ class WCH5Dataset(Dataset):
 
         #this will fit easily in memory even for huge datasets
         self.labels = np.array(hdf5_labels)
-        self.energies = np.array(hdf5_energies)
+        self.energies = np.squeeze(np.array(hdf5_energies))
 
         self.transform=transform
         
@@ -75,7 +75,7 @@ class WCH5Dataset(Dataset):
 
     def __getitem__(self,index):
         if self.transform is None:
-            return np.array(self.event_data[index,:]),  self.labels[index], self.energies[index][0]
+            return np.array(self.event_data[index,:]),  self.labels[index], self.energies[index]
         else:
             return self.transform(np.array(self.event_data[index,:])),  self.labels[index], self.energies[index]
 
