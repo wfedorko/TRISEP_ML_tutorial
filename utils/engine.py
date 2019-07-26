@@ -140,7 +140,7 @@ class Engine:
         # Initialize epoch counter
         epoch = 0.
         # Initialize iteration counter
-        iteration = 0
+        self.iteration = 0
         # Training loop
         while ((int(epoch+0.5) < epochs) ):
             print('Epoch',int(epoch+0.5),'Starting @',time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
@@ -159,18 +159,18 @@ class Engine:
                 self.backward()
                 # Epoch update
                 epoch += 1./len(self.train_dldr)
-                iteration += 1
+                self.iteration += 1
                 
                 # Log/Report
                 #
                 # Record the current performance on train set
-                self.train_log.record(['iteration','epoch','accuracy','loss'],[iteration,epoch,res['accuracy'],res['loss']])
+                self.train_log.record(['iteration','epoch','accuracy','loss'],[self.iteration,epoch,res['accuracy'],res['loss']])
                 self.train_log.write()
                 self.train_log.flush()
                 
                 # once in a while, report
                 if i==0 or i%report_interval == 0:
-                    print('... Iteration %d ... Epoch %1.2f ... Loss %1.3f ... Accuracy %1.3f' % (iteration,epoch,res['loss'],res['accuracy']))
+                    print('... Iteration %d ... Epoch %1.2f ... Loss %1.3f ... Accuracy %1.3f' % (self.iteration,epoch,res['loss'],res['accuracy']))
                     pass
                     
                 # more rarely, run validation
@@ -189,7 +189,7 @@ class Engine:
                     self.label = val_data[1]
                     
                     res = self.forward(False)
-                    print('... Iteration %d ... Epoch %1.2f ... Validation Loss %1.3f ... Validation Accuracy %1.3f' % (iteration,epoch,res['loss'],res['accuracy']))
+                    print('... Iteration %d ... Epoch %1.2f ... Validation Loss %1.3f ... Validation Accuracy %1.3f' % (self.iteration,epoch,res['loss'],res['accuracy']))
                     
                     
                     self.model.train()
@@ -202,7 +202,7 @@ class Engine:
                         self.save_state(best=True)
                         mark_best=1
 
-                    self.val_log.record(['iteration','epoch','accuracy','loss','saved_best'],[iteration,epoch,res['accuracy'],res['loss'],mark_best])
+                    self.val_log.record(['iteration','epoch','accuracy','loss','saved_best'],[self.iteration,epoch,res['accuracy'],res['loss'],mark_best])
                     self.val_log.write()
                     self.val_log.flush()
                         
