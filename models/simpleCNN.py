@@ -22,7 +22,7 @@ class SimpleCNN(nn.Module):
 
         self.f_embed = nn.Conv2d(num_input_channels, 32, kernel_size=1, stride=1, padding=0)
         # Convolutions and max-pooling
-        self.f_conv1 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.f_conv1 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
         self.f_max_pool1  = nn.MaxPool2d(2,2)
         
         self.f_conv2a = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)

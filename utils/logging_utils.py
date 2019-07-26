@@ -27,3 +27,8 @@ class CSVData:
 
     def flush(self):
         if self._fout: self._fout.flush()
+    
+    def close(self):
+        if self._str is not None:
+            self._fout.close()
+
