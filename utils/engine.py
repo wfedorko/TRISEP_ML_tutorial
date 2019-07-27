@@ -103,20 +103,20 @@ class Engine:
             self.label = self.label.to(self.device)
 
             
-            prediction = self.model(self.data)
+            linear_model_out = self.model(self.data)
             # Training
-            loss = -1
-            loss = self.criterion(prediction,self.label)
-            self.loss = loss
             
-            softmax    = self.softmax(prediction).cpu().detach().numpy()
-            prediction = torch.argmax(prediction,dim=-1)
+            self.loss = self.criterion(linear_model_out,self.label)
+            
+            
+            softmax    = self.softmax(linear_model_out).detach().cpu().numpy()
+            prediction = torch.argmax(linear_model_out,dim=-1)
             accuracy   = (prediction == self.label).sum().item() / float(prediction.nelement())        
-            prediction = prediction.cpu().detach().numpy()
+            prediction = prediction.cpu().numpy()
         
         return {'prediction' : prediction,
                 'softmax'    : softmax,
-                'loss'       : loss.cpu().detach().item(),
+                'loss'       : self.loss.detach().cpu().item(),
                 'accuracy'   : accuracy}
 
     def backward(self):
