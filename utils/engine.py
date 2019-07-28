@@ -147,33 +147,9 @@ class Engine:
             j = 0
             # Loop over data samples and into the network forward function
             for i, data in enumerate(self.train_dldr):
-                
-                # Data and label
-                self.data = data[0]
-                self.label = data[1]
-                
-                
-                # Call forward: make a prediction & measure the average error
-                res = self.forward(True)
-                # Call backward: backpropagate error and update weights
-                self.backward()
-                # Epoch update
-                epoch += 1./len(self.train_dldr)
-                self.iteration += 1
-                
-                # Log/Report
-                #
-                # Record the current performance on train set
-                self.train_log.record(['iteration','epoch','accuracy','loss'],[self.iteration,epoch,res['accuracy'],res['loss']])
-                self.train_log.write()
-                self.train_log.flush()
-                
-                # once in a while, report
-                if i==0 or i%report_interval == 0:
-                    print('... Iteration %d ... Epoch %1.2f ... Loss %1.3f ... Accuracy %1.3f' % (self.iteration,epoch,res['loss'],res['accuracy']))
-                    pass
-                    
-                # more rarely, run validation
+
+                # once in a while run valiation
+                # as a sanity check run validation before we start training
                 if i%valid_interval == 0:
                     self.model.eval()
 
@@ -205,6 +181,33 @@ class Engine:
                     self.val_log.record(['iteration','epoch','accuracy','loss','saved_best'],[self.iteration,epoch,res['accuracy'],res['loss'],mark_best])
                     self.val_log.write()
                     self.val_log.flush()
+                
+                # Data and label
+                self.data = data[0]
+                self.label = data[1]
+                
+                
+                # Call forward: make a prediction & measure the average error
+                res = self.forward(True)
+                # Call backward: backpropagate error and update weights
+                self.backward()
+                # Epoch update
+                epoch += 1./len(self.train_dldr)
+                self.iteration += 1
+                
+                # Log/Report
+                #
+                # Record the current performance on train set
+                self.train_log.record(['iteration','epoch','accuracy','loss'],[self.iteration,epoch,res['accuracy'],res['loss']])
+                self.train_log.write()
+                self.train_log.flush()
+                
+                # once in a while, report
+                if i==0 or i%report_interval == 0:
+                    print('... Iteration %d ... Epoch %1.2f ... Loss %1.3f ... Accuracy %1.3f' % (self.iteration,epoch,res['loss'],res['accuracy']))
+                    pass
+                    
+                
                         
                 if epoch >= epochs:
                     break
