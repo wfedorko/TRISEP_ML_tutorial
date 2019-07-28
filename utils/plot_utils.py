@@ -63,7 +63,7 @@ def tile(canvas, ul, pmts):
             
 
 
-def disp_learn_hist(location,losslim=None):
+def disp_learn_hist(location,losslim=None,show=True):
     train_log=location+'/log_train.csv'
     val_log=location+'/log_val.csv'
 
@@ -97,10 +97,13 @@ def disp_learn_hist(location,losslim=None):
     leg_frame = leg.get_frame()
     leg_frame.set_facecolor('white')
 
-    plt.grid()
-    plt.show()
+    if show:
+        plt.grid()
+        plt.show()
     
-def disp_learn_hist_smoothed(location, losslim=None, window_train=400,window_val=40):
+    return fig
+    
+def disp_learn_hist_smoothed(location, losslim=None, window_train=400,window_val=40,show=True):
     train_log=location+'/log_train.csv'
     val_log=location+'/log_val.csv'
     
@@ -158,9 +161,12 @@ def disp_learn_hist_smoothed(location, losslim=None, window_train=400,window_val
     leg    = ax2.legend(lines, labels, fontsize=16, loc=5, numpoints=1)
     leg_frame = leg.get_frame()
     leg_frame.set_facecolor('white')
-    
-    plt.grid()
-    plt.show()
+
+    if show:
+        plt.grid()
+        plt.show()
+
+    return fig
 
 
 def moving_average(a, n=3) :
