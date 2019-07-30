@@ -100,6 +100,7 @@ def disp_learn_hist(location,losslim=None,show=True):
     if show:
         plt.grid()
         plt.show()
+        return
     
     return fig
     
@@ -165,6 +166,7 @@ def disp_learn_hist_smoothed(location, losslim=None, window_train=400,window_val
     if show:
         plt.grid()
         plt.show()
+        return
 
     return fig
 
@@ -173,3 +175,58 @@ def moving_average(a, n=3) :
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
+
+
+# Function to plot a confusion matrix
+def plot_confusion_matrix(labels, predictions, class_names):
+    
+    """
+    plot_confusion_matrix(labels, predictions, class_names)
+    
+    Purpose : Plot the confusion matrix for a given energy interval
+    
+    Args: labels              ... 1D array of true label value, the length = sample size
+          predictions         ... 1D array of predictions, the length = sample size
+          class_names         ... 1D array of string label for classification targets, the length = number of categories
+       
+ 
+    """
+    
+  
+    
+    
+    fig, ax = plt.subplots(figsize=(12,8),facecolor='w')
+    num_labels = len(class_names)
+    max_value = np.max([np.max(np.unique(labels)),np.max(np.unique(labels))])
+    assert max_value < num_labels
+    mat,_,_,im = ax.hist2d(predictions, labels,
+                           bins=(num_labels,num_labels),
+                           range=((-0.5,num_labels-0.5),(-0.5,num_labels-0.5)),cmap=plt.cm.Blues)
+
+    # Normalize the confusion matrix
+    mat = mat.astype("float") / mat.sum(axis=0)[:, np.newaxis]
+
+    cbar = plt.colorbar(im, ax=ax)
+    cbar.ax.tick_params(labelsize=20) 
+        
+    ax.set_xticks(np.arange(num_labels))
+    ax.set_yticks(np.arange(num_labels))
+    ax.set_xticklabels(class_names,fontsize=20)
+    ax.set_yticklabels(class_names,fontsize=20)
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+    plt.setp(ax.get_yticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+    ax.set_xlabel('Prediction',fontsize=20)
+    ax.set_ylabel('True Label',fontsize=20)
+    for i in range(mat.shape[0]):
+        for j in range(mat.shape[1]):
+            ax.text(i,j, r"${0:0.3f}$".format(mat[i,j]),
+                    ha="center", va="center", fontsize=20,
+                    color="white" if mat[i,j] > (0.5*mat.max()) else "black")
+    fig.tight_layout()
+    plt.title("Confusion matrix", fontsize=20) 
+   
+    plt.show()
+
+
