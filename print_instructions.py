@@ -4,6 +4,11 @@ import os
 
 def print_instructions():
     usr=os.environ['USER']
+    with open('ip.txt') as f:
+        myip = f.readline()
+
+    myip=myip.rstrip()
+    
     textfile = open('jupyter_logbook.txt', 'r')
     matches = []
     reg = re.compile('^\s*http://localhost:([0-9]*)')
@@ -12,7 +17,7 @@ def print_instructions():
         if match is not None:
             port=match.group(1)
             print("In a terminal running local shell on your laptop paste:")
-            print('ssh -L {}:localhost:{} {}@triumf-ml1.triumf.ca -N -f'.format(port, port, usr))
+            print('ssh -L {}:localhost:{} {}@{} -N -f'.format(port, port, usr, myip))
             print("then in your browser address bar paste:")
             print(line.lstrip())
             

@@ -108,3 +108,5 @@ venv.bak/
 jupyter_logbook.txt
 
 model_state_dumps
+
+ip.txt
