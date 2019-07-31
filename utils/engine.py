@@ -83,7 +83,7 @@ class Engine:
             os.stat(self.dirpath)
         except:
             print("Creating a directory for run dump: {}".format(self.dirpath))
-            os.mkdir(self.dirpath)
+            os.makedirs(self.dirpath,exist_ok=True)
 
         self.config=config
         
