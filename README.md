@@ -37,4 +37,10 @@ cd TRISEP_ML_tutorial
 ./start_jupyternotebook.sh
 ```
 
+## Notebook order in the tutorial
+The sequence of the tutorial is:
+  1. `Data_Exploration_And_Streaming.ipynb`
+  1. `MLP_CNN.ipynb`
+  1. `Training diagnostics and performance metrics.ipynb`
+The notebook `Training monitor.ipynb` is meant to display some live diagnostics during network training process and can be run anytime in parallel.
 
