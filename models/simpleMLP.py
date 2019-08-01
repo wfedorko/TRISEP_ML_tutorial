@@ -35,7 +35,7 @@ class SimpleMLP(nn.Module):
         x = self.relu(self.fc2(x))
         x = self.relu(self.fc3(x))
         x = self.relu(self.fc4(x))
-        x = self.fc5(x)
+        x = self.softmax(self.fc5(x))
         
         return x
 
@@ -53,7 +53,7 @@ class SimpleMLPSEQ(nn.Module):
             nn.Linear(9728, 4864),nn.ReLU(),      
             nn.Linear(4864, 1600),nn.ReLU(),      
             nn.Linear(1600, 400),nn.ReLU(),       
-            nn.Linear(400, num_classes))
+            nn.Linear(400, num_classes),nn.Softmax(dim=1))
         
         
     # Forward pass
