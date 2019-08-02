@@ -47,7 +47,7 @@ class Engine:
         #self.optimizer = optim.Adam(self.model.parameters(), lr=config.lr)
         self.optimizer = optim.SGD(self.model.parameters(), lr=config.lr)
         self.criterion = nn.CrossEntropyLoss()
-        
+        self.softmax = nn.Softmax(dim=1)
 
         #placeholders for data and labels
         self.data=None
@@ -104,19 +104,19 @@ class Engine:
             self.label = self.label.to(self.device)
 
             
-            softmax_model_out = self.model(self.data)
+            linear_model_out = self.model(self.data)
             # Training
             
-            self.loss = self.criterion(softmax_model_out,self.label)
+            self.loss = self.criterion(linear_model_out,self.label)
             
             
-            softmax_np = softmax_model_out.detach().cpu().numpy()
-            prediction = torch.argmax(softmax_model_out,dim=-1)
+            softmax    = self.softmax(linear_model_out).detach().cpu().numpy()
+            prediction = torch.argmax(linear_model_out,dim=-1)
             accuracy   = (prediction == self.label).sum().item() / float(prediction.nelement())        
             prediction = prediction.cpu().numpy()
         
         return {'prediction' : prediction,
-                'softmax'    : softmax_np,
+                'softmax'    : softmax,
                 'loss'       : self.loss.detach().cpu().item(),
                 'accuracy'   : accuracy}
 

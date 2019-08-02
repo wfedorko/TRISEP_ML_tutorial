@@ -6,6 +6,9 @@ Before proceeding please fork this repository by clicking on a button above in t
 
 ## Acknowledgements
 I borrowed code liberally from [code and tutorials](https://github.com/WatChMaL) developed by [Kazu Terao](https://github.com/drinkingkazu) and code by [Julian Ding](https://github.com/search?q=user%3Ajulianzding) and [Abhishek Kajal](https://github.com/search?q=user%3Aabhishekabhishek). Big thanks also to the [Water Cherenkov Machine Learning](https://github.com/WatChMaL) collaboration for lending their data - particularly [Nick Prouse](https://github.com/nickwp) for actually running the simulations and to Julian for 'massaging' the data.
+Big Thanks to Amazon Web Services for providing the computing resources enabling us to run this session
+<a href="https://aws.amazon.com/what-is-cloud-computing"><img src="https://d0.awsstatic.com/logos/powered-by-aws.png" alt="Powered by AWS Cloud Computing"></a>
+
 
 ## Starting on TRIUMF resources
 Log into triumf-ml1.triumf.ca Your username has been derrived from your email by taking the part before the `@` character and removing dashes and dots. e.g. email `winston-niles.rumfoord@infundibulum.space` gives username `winstonnilesrumfoord`. If the private key corresponding to the public key you gave me is not your default key you will need to specify it explicitly.
