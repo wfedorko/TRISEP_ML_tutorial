@@ -41,6 +41,11 @@ cd TRISEP_ML_tutorial
 . find_this_ip
 ./start_jupyternotebook.sh
 ```
+If the instructions do not appear wait 10 seconds and then type:
+```
+python print_instructions.py
+```
+Note that if you are using non-default keys you will need to add ` -i <my_private_key> ` right after `ssh`
 
 ## Notebook order in the tutorial
 The sequence of the tutorial is:
